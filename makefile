@@ -47,6 +47,7 @@ kernel/crtbegin.o kernel/crtend.o:
 
 clean:
 	rm -f kernel.img
+	rm -f kernel.iso
 	rm -rf isodir
 	rm -f $(OBJS) *.o */*.o */*/*.o
 	rm -f $(OBJS:.o=.d) *.d */*.d */*/*.d

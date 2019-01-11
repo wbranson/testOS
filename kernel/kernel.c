@@ -3,7 +3,7 @@
 typedef int (*initcall_t)(void);
 #define __section(S) __attribute__((__section__(#S)))
 #define __used __attribute__((__used__))
-#define __init __section(.init)
+#define __init __section(.init.text)
 
 static int __init myFunc(void)
 {
