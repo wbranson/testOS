@@ -1,0 +1,9 @@
+{
+    "files.exclude": {
+        "**/.gitignore": true,
+        "**/isodir": true,
+        "**/kernel.img": true,
+        "LICENSE": true
+    },
+    "C_Cpp.clang_format_style": "Visual Studio"
+}

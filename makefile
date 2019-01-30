@@ -5,10 +5,12 @@ AR=${HOST}-ar
 AS=${HOST}-as
 CC=${HOST}-gcc --sysroot=${SYSROOT}
 
-KERNEL_ARCH_OBJS=$(patsubst %.c,%.o,$(wildcard kernel/*.c))
-KERNEL_ARCH_OBJS+=$(patsubst %.S,%.o,$(wildcard kernel/*.S))
+KERNEL_ARCH_OBJS=$(patsubst %.c,%.o,$(wildcard */*.c))
+KERNEL_ARCH_OBJS+=$(patsubst %.c,%.o,$(wildcard kernel/*/*.c))
+KERNEL_ARCH_OBJS+=$(patsubst %.S,%.o,$(wildcard */*.S))
+KERNEL_ARCH_OBJS+=$(patsubst %.S,%.o,$(wildcard kernel/*/*.S))
 
-CFLAGS=-Og -g -ffreestanding -Wall -Wextra
+CFLAGS=-Og -g -ffreestanding -Wall -Wextra -nostdlib -nodefaultlibs
 
 CFLAGS:=$(CFLAGS) 
 CPPFLAGS:=$(CPPFLAGS) -D__is_kernel -Iinclude
@@ -32,8 +34,8 @@ $(LIBS) \
 
 all: kernel.img
 
-kernel.img: $(OBJS) kernel/linker.ld
-	$(CC) -T kernel/linker.ld -o $@ $(CFLAGS)  $(LINK_LIST)
+kernel.img: $(OBJS) kernel/boot/linker.ld
+	$(CC) -T kernel/boot/linker.ld -o $@ $(CFLAGS)  $(LINK_LIST)
 	grub-file --is-x86-multiboot kernel.img
 
 kernel/crtbegin.o kernel/crtend.o:
@@ -51,5 +53,7 @@ clean:
 	rm -rf isodir
 	rm -f $(OBJS) *.o */*.o */*/*.o
 	rm -f $(OBJS:.o=.d) *.d */*.d */*/*.d
+
+print-%  : ; @echo $* = $($*)
 
 -include $(OBJS:.o=.d)

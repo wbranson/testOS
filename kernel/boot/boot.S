@@ -29,13 +29,10 @@ _start:
 	push %eax
 	push %ebx
 	
-	# Call the global constructors.
 	call _init
-
-	# Transfer control to the main kernel.
+	
 	call kernel_main
 
-	# Hang if kernel_main unexpectedly returns.
 	cli
 1:	hlt
 	jmp 1b

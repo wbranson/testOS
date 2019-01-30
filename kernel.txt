@@ -21,7 +21,7 @@ Disassembly of section .text:
   100011:	bc 00 50 10 00       	mov    $0x105000,%esp
   100016:	50                   	push   %eax
   100017:	53                   	push   %ebx
-  100018:	e8 29 00 00 00       	call   100046 <_init>
+  100018:	e8 49 00 00 00       	call   100066 <_init>
   10001d:	e8 ea ff ff ff       	call   10000c <kernel_main>
   100022:	fa                   	cli    
   100023:	f4                   	hlt    
@@ -42,62 +42,92 @@ Disassembly of section .init.text:
   100044:	c9                   	leave  
   100045:	c3                   	ret    
 
-Disassembly of section .init:
-
-00100046 <_init>:
+00100046 <myFunc2>:
   100046:	55                   	push   %ebp
   100047:	89 e5                	mov    %esp,%ebp
-  100049:	5d                   	pop    %ebp
-  10004a:	c3                   	ret    
+  100049:	83 ec 10             	sub    $0x10,%esp
+  10004c:	c7 45 fc 00 00 00 00 	movl   $0x0,-0x4(%ebp)
+  100053:	eb 04                	jmp    100059 <myFunc2+0x13>
+  100055:	83 45 fc 01          	addl   $0x1,-0x4(%ebp)
+  100059:	83 7d fc 02          	cmpl   $0x2,-0x4(%ebp)
+  10005d:	7e f6                	jle    100055 <myFunc2+0xf>
+  10005f:	b8 00 00 00 00       	mov    $0x0,%eax
+  100064:	c9                   	leave  
+  100065:	c3                   	ret    
+
+Disassembly of section .init:
+
+00100066 <_init>:
+  100066:	55                   	push   %ebp
+  100067:	89 e5                	mov    %esp,%ebp
+  100069:	5d                   	pop    %ebp
+  10006a:	c3                   	ret    
 
 Disassembly of section .fini:
 
-0010004b <_fini>:
-  10004b:	55                   	push   %ebp
-  10004c:	89 e5                	mov    %esp,%ebp
-  10004e:	5d                   	pop    %ebp
-  10004f:	c3                   	ret    
+0010006b <_fini>:
+  10006b:	55                   	push   %ebp
+  10006c:	89 e5                	mov    %esp,%ebp
+  10006e:	5d                   	pop    %ebp
+  10006f:	c3                   	ret    
 
 Disassembly of section .eh_frame:
 
-00100050 <_GLOBAL_OFFSET_TABLE_-0x54>:
-  100050:	14 00                	adc    $0x0,%al
-  100052:	00 00                	add    %al,(%eax)
-  100054:	00 00                	add    %al,(%eax)
-  100056:	00 00                	add    %al,(%eax)
-  100058:	01 7a 52             	add    %edi,0x52(%edx)
-  10005b:	00 01                	add    %al,(%ecx)
-  10005d:	7c 08                	jl     100067 <_fini+0x1c>
-  10005f:	01 1b                	add    %ebx,(%ebx)
-  100061:	0c 04                	or     $0x4,%al
-  100063:	04 88                	add    $0x88,%al
-  100065:	01 00                	add    %eax,(%eax)
-  100067:	00 1c 00             	add    %bl,(%eax,%eax,1)
-  10006a:	00 00                	add    %al,(%eax)
-  10006c:	1c 00                	sbb    $0x0,%al
-  10006e:	00 00                	add    %al,(%eax)
-  100070:	b6 ff                	mov    $0xff,%dh
-  100072:	ff                   	(bad)  
-  100073:	ff 20                	jmp    *(%eax)
-  100075:	00 00                	add    %al,(%eax)
-  100077:	00 00                	add    %al,(%eax)
-  100079:	41                   	inc    %ecx
-  10007a:	0e                   	push   %cs
-  10007b:	08 85 02 42 0d 05    	or     %al,0x50d4202(%ebp)
-  100081:	5c                   	pop    %esp
-  100082:	c5 0c 04             	lds    (%esp,%eax,1),%ecx
-  100085:	04 00                	add    $0x0,%al
-  100087:	00 18                	add    %bl,(%eax)
-  100089:	00 00                	add    %al,(%eax)
-  10008b:	00 3c 00             	add    %bh,(%eax,%eax,1)
+00100070 <_GLOBAL_OFFSET_TABLE_-0x74>:
+  100070:	14 00                	adc    $0x0,%al
+  100072:	00 00                	add    %al,(%eax)
+  100074:	00 00                	add    %al,(%eax)
+  100076:	00 00                	add    %al,(%eax)
+  100078:	01 7a 52             	add    %edi,0x52(%edx)
+  10007b:	00 01                	add    %al,(%ecx)
+  10007d:	7c 08                	jl     100087 <_fini+0x1c>
+  10007f:	01 1b                	add    %ebx,(%ebx)
+  100081:	0c 04                	or     $0x4,%al
+  100083:	04 88                	add    $0x88,%al
+  100085:	01 00                	add    %eax,(%eax)
+  100087:	00 1c 00             	add    %bl,(%eax,%eax,1)
+  10008a:	00 00                	add    %al,(%eax)
+  10008c:	1c 00                	sbb    $0x0,%al
   10008e:	00 00                	add    %al,(%eax)
-  100090:	7c ff                	jl     100091 <_fini+0x46>
+  100090:	96                   	xchg   %eax,%esi
+  100091:	ff                   	(bad)  
   100092:	ff                   	(bad)  
-  100093:	ff 05 00 00 00 00    	incl   0x0
+  100093:	ff 20                	jmp    *(%eax)
+  100095:	00 00                	add    %al,(%eax)
+  100097:	00 00                	add    %al,(%eax)
   100099:	41                   	inc    %ecx
   10009a:	0e                   	push   %cs
   10009b:	08 85 02 42 0d 05    	or     %al,0x50d4202(%ebp)
-  1000a1:	00 00                	add    %al,(%eax)
+  1000a1:	5c                   	pop    %esp
+  1000a2:	c5 0c 04             	lds    (%esp,%eax,1),%ecx
+  1000a5:	04 00                	add    $0x0,%al
+  1000a7:	00 18                	add    %bl,(%eax)
+  1000a9:	00 00                	add    %al,(%eax)
+  1000ab:	00 3c 00             	add    %bh,(%eax,%eax,1)
+  1000ae:	00 00                	add    %al,(%eax)
+  1000b0:	5c                   	pop    %esp
+  1000b1:	ff                   	(bad)  
+  1000b2:	ff                   	(bad)  
+  1000b3:	ff 05 00 00 00 00    	incl   0x0
+  1000b9:	41                   	inc    %ecx
+  1000ba:	0e                   	push   %cs
+  1000bb:	08 85 02 42 0d 05    	or     %al,0x50d4202(%ebp)
+  1000c1:	00 00                	add    %al,(%eax)
+  1000c3:	00 1c 00             	add    %bl,(%eax,%eax,1)
+  1000c6:	00 00                	add    %al,(%eax)
+  1000c8:	58                   	pop    %eax
+  1000c9:	00 00                	add    %al,(%eax)
+  1000cb:	00 7a ff             	add    %bh,-0x1(%edx)
+  1000ce:	ff                   	(bad)  
+  1000cf:	ff 20                	jmp    *(%eax)
+  1000d1:	00 00                	add    %al,(%eax)
+  1000d3:	00 00                	add    %al,(%eax)
+  1000d5:	41                   	inc    %ecx
+  1000d6:	0e                   	push   %cs
+  1000d7:	08 85 02 42 0d 05    	or     %al,0x50d4202(%ebp)
+  1000dd:	5c                   	pop    %esp
+  1000de:	c5 0c 04             	lds    (%esp,%eax,1),%ecx
+  1000e1:	04 00                	add    $0x0,%al
 	...
 
 Disassembly of section .bss:
@@ -108,7 +138,8 @@ Disassembly of section .bss:
 Disassembly of section .init.data:
 
 00105000 <__initcall6_start>:
-  105000:	26 00 10             	add    %dl,%es:(%eax)
+  105000:	46                   	inc    %esi
+  105001:	00 10                	add    %dl,(%eax)
 	...
 
 Disassembly of section .comment:
